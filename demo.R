@@ -246,7 +246,47 @@ a <- data.frame(gender = c("Female", "Female", "Male"),
                 age = c(21,22, 23),
                 row.names = c("Ally", "Belinda", "Alfred"))
 
+### Converting a matrix into a dataframe and vice versa
+a1 <- matrix(1:20, nrow=4)
+b1 <- as.data.frame(a1)
+c1 <- as.matrix(b1)
 
+### Creating Dataframe from vector
+gender <- c("Female", "Male","Female")
+height <- c(155, 171.5, 155)
+weight <- c(71,93, 68)
+df <- cbind(gender,height,weight)
+df
+
+### row and column names
+colnames(df)
+rownames(df)	
+rownames(df) <- c("a", "b", "c")
+df
+
+### row and column number
+nrow(df)
+ncol(df)
+
+### subsetting data frame
+a$gender         # gender colummn
+a$height
+
+a[["height"]]
+a[[1]]
+
+a[1,1]           # first row first column
+a[-1,-1]         # all rows except first and all columns except first       
+a[c(1,2),c(2,3)] # 1 and 2 column & 2 and 3 colummn    
+a["gender"]    # column named gender
+
+subset(a, select = c("gender", "age"))
+subset(a, subset = height > 163, select = c("gender", "height", "age"))
+
+### adding column to a data frame
+a$name =c('Ally','Belinda','Jane')
+
+### accessing the class of columns
 sapply(a,class)
 
 ## 7. List
@@ -271,8 +311,15 @@ list2 <- list("Sun","Mon","Tue")
 merged.list <- c(list1,list2)
 merged.list
 
+### 8. Factor
+#########################################################################################
+data <- factor(c("male","female","female","male"))
+is.factor(data)
+is.factor(sleep$group)
+is.factor(sleep$extra)
 
-### 8. Date
+
+### 9. Date
 #########################################################################################
 x <- as.Date("2016-03-13")
 x <- as.Date("5/Aug/16", format= "%d/%b/%y")
@@ -280,6 +327,27 @@ x
 weekdays(x)
 x+30
 months(x)
+
+
+########################################################################################
+# Packages
+#######################################################################################
+browseURL("https://cran.r-project.org/web/views/")
+#install.packages("ggplot2")
+library("ggplot2")
+#update.packages()
+#detach("package:ggplot2", unload = TRUE)
+#remove.packages("ggplot2") 
+
+######################################################################################
+# Datasets
+#######################################################################################
+browseURL("http://stat.ethz.ch/R-manual/R-devel/library/datasets/html/00Index.html")
+head(sleep)
+str(sleep)
+browseURL("http://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data")
+read.table("http://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data",
+           nrows=5, header = FALSE, sep = ",")
 
 ##########################################################################################
 # Charts
@@ -334,24 +402,21 @@ plot(mtcars[,c(1,6,7)], col = "blue", pch=19)
 getwd()                      # working directory
 setwd("../")
 getwd()
-setwd("tertiaryInfotech/")
+setwd("rEssential/")
 getwd()
 
 #######################################################################################
 # Writing to and reading from a file
 ########################################################################################
-
 ### csv file
-write.csv(mtcars, file = "input.csv")
-b <- read.csv("input.csv", header = TRUE)
-head(b)
-View(b)
-subset(b, gear ==4 & am == 1)
+data1 <- read.csv("data1.csv", header = TRUE)
+head(data1)
+View(data1)
+
 
 ### text file
-read.table("input.csv", header = TRUE, sep = ",")
-sleep
-write.table(sleep, file = "sleep.csv", sep = ",")
+read.table("wine.txt", header = FALSE, sep = ",", nrows = 5)
+write.table(sleep, file = "sleep.csv", sep = ",", quote = FALSE)
 
 ########################################################################################
 # control structure
@@ -496,8 +561,19 @@ apply(mtcars, 1, mean)
 
 lapply(mtcars, max)
 lapply(mtcars, min)
-sapply(mtcars, min)
 lapply(mtcars, mean)
+sapply(mtcars, min)
+
+#########################################################################################
+# Basic Statistics
+#########################################################################################
+x <- 1:100
+mean(x,trim=0.3)
+median(x)
+summary(x)
+sample(x, size=10)
+sample(c(TRUE, FALSE), size = 10, replace=TRUE, prob = c(0.2,0.8)) # randomly select 20%
+# of observation
 
 
 ##########################################################################################
