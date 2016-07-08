@@ -125,7 +125,7 @@ which.max(y)   # Location of the maximum y value
 which.min(y)   # Location of the minimum y value
 
 
-### Challenge: Find the sum of the positive elements of a
+### Challenge 1: Find the sum of the positive elements of a (slide No: 37)
 a <- c(2,3,-1,3,5,2,-3,1)
 
 ### Dropping NA values
@@ -200,6 +200,10 @@ M[1:2, 3:4]               # row 1 to 2, column 3 to 4
 rep(c(4,2), each=10)
 rep(1:4, each = 3, times=4)
 
+### Challenge 2: Extract the elements in red (slide No: 50)
+a <- matrix(1:20, ncol=4)
+
+
 ### Manipulating matrix elements
 M1 <- matrix(c(3,9,-1,4,2,6), nrow = 2)
 M2 <- matrix(c(5,2,0,9,3,4), nrow = 2)
@@ -269,9 +273,10 @@ nrow(df)
 ncol(df)
 
 ### subsetting data frame
-a$gender         # gender colummn
+a$gender         # gender column
 a$height
 
+a[["gender"]]    # column named gender
 a[["height"]]
 a[[1]]
 
@@ -289,7 +294,14 @@ a$name =c('Ally','Belinda','Jane')
 ### accessing the class of columns
 sapply(a,class)
 
-## 7. List
+### 7. Factor
+#########################################################################################
+data <- factor(c("male","female","female","male"))
+is.factor(data)
+is.factor(sleep$group)
+is.factor(sleep$extra)
+
+## 8. List
 ###########################################################################################
 ### Defining a list
 a <- list(c(1,2,3,5,6), y = c("n1", "n2", "n3"), 
@@ -301,22 +313,24 @@ a$y
 
 ### Accessing list element using [[ ]] operator, a vector is returned 
 a[[1]]
+sum(a[[1]])
 
 ### Accessing list element using [ ] operator, a list is returned
 a[1]
+sum(a[1])
+
+### Modifying list
+a[[1]] <- c(7,8,9)
+a
+
+a$newMem <- c("x1", "x2", "x3")
+a
 
 ### Merging List
 list1 <- list(1,2,3)
 list2 <- list("Sun","Mon","Tue")
 merged.list <- c(list1,list2)
 merged.list
-
-### 8. Factor
-#########################################################################################
-data <- factor(c("male","female","female","male"))
-is.factor(data)
-is.factor(sleep$group)
-is.factor(sleep$extra)
 
 
 ### 9. Date
@@ -348,6 +362,30 @@ str(sleep)
 browseURL("http://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data")
 read.table("http://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data",
            nrows=5, header = FALSE, sep = ",")
+
+#######################################################################################
+# Working with directory
+#######################################################################################
+getwd()                      # working directory
+setwd("../")
+getwd()
+setwd("rEssential/")
+getwd()
+
+#######################################################################################
+# Writing to and reading from a file
+########################################################################################
+### csv file
+data1 <- read.csv("data1.csv", header = TRUE)
+head(data1)
+View(data1)
+
+### challenge 3: add a row at the end of a csv file and store it under some other name 
+### (slide No: 104)
+
+### text file
+read.table("wine.txt", header = FALSE, sep = ",", nrows = 5)
+write.table(sleep, file = "sleep.csv", sep = ",", quote = FALSE)
 
 ##########################################################################################
 # Charts
@@ -396,28 +434,6 @@ legend(x=4.6,y=34, legend=c("wt", "qsec"), pch = c(19,17), col = c('blue', 'red'
 plot(mtcars[,c(1,6,7)], col = "blue", pch=19)
 
 
-#######################################################################################
-# Working with directory
-#######################################################################################
-getwd()                      # working directory
-setwd("../")
-getwd()
-setwd("rEssential/")
-getwd()
-
-#######################################################################################
-# Writing to and reading from a file
-########################################################################################
-### csv file
-data1 <- read.csv("data1.csv", header = TRUE)
-head(data1)
-View(data1)
-
-
-### text file
-read.table("wine.txt", header = FALSE, sep = ",", nrows = 5)
-write.table(sleep, file = "sleep.csv", sep = ",", quote = FALSE)
-
 ########################################################################################
 # control structure
 #########################################################################################
@@ -441,6 +457,17 @@ if(x >y){
 }else {
   print("y is greater than x")
 }
+
+## switch
+###########################################################################################
+x <- "four"
+switch(x,
+       zero = print(0),
+       one =   print(1),
+       two =   print(2),
+       three = print(3),
+       print("i understand only upto 3 :(")) 
+
 
 ## while loop
 ###########################################################################################
@@ -476,6 +503,9 @@ for (i in 1:10){
   if (i==5) break
   print(i)
 }
+
+## Challenge
+### read data1.csv
 
 
 ##########################################################################################
@@ -552,6 +582,12 @@ f <- function(x, y, ...){
 x <- seq(from = -3*pi, to = 3*pi, length.out = 100)
 y <- sin(x)
 f(x,y, col = "red", main = "sine", type = "o")
+
+## Challenge 5: Simulate the sum of two die rolls (slide no: 164)
+##############################################################################################
+## Hint: Use sample function. 
+
+
 
 ############################################################################################
 # Advanced functions
