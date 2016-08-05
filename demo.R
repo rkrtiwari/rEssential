@@ -41,27 +41,8 @@ sin(pi/2)
 3/0
 Inf/Inf
 
-# 2. Text
-###########################################################################################
 
-### Splitting text
-a <- "Today is a very good day"
-b <- strsplit(a, split = " ")   # strsplit produces a list
-b <- strsplit(a, split = "is")
-c <- unlist(b)   
-c[1]
-
-### Joining Text
-a <- "angch"
-b <- "tertiaryinfotech.com"
-paste(a,b, sep = "@")
-
-### Sorting Text
-v <- c("Red", "Blue", "yellow", "violet")
-sort(v)
-sort(v, decreasing = TRUE)
-
-# 3. Vectors
+# 2. Vectors
 ############################################################################################
 ### Creating Vector using : operator
 a <- 0:10
@@ -170,12 +151,8 @@ str(v)
 summary(v)
 class(v)
 
-v <- c("Red", "Blue", "Yellow", "Violet")
-str(v)
-summary(v)
-class(v)
 
-## 4. Matrix
+## 3. Matrix
 ###########################################################################################
 ### Different ways to create a matrix
 matrix(1:12, ncol=4)
@@ -225,7 +202,7 @@ colSums(M)
 colMeans(M)
 t(M)
 
-## 5. Array
+## 4. Array
 #############################################################################################
 ### Creating an array
 a <- array(c(11:14, 21:24, 31:34), dim=c(2,2,3))
@@ -235,7 +212,7 @@ a
 a[,,1]    # 1st matrix
 a[1,,1]   # 1st row, 1st matrix
 
-## 6. Data Frame
+## 5. Data Frame
 #############################################################################################
 gender <- c("Female", "Female", "Male")
 height <- c(162, 169, 170)
@@ -298,14 +275,14 @@ a$name =c('Ally','Belinda','Jane')
 ### accessing the class of columns
 sapply(a,class)
 
-### 7. Factor
+### 6. Factor
 #########################################################################################
 data <- factor(c("male","female","female","male"))
 is.factor(data)
 is.factor(sleep$group)
 is.factor(sleep$extra)
 
-## 8. List
+## 7. List
 ###########################################################################################
 ### Defining a list
 a <- list(c(1,2,3,5,6), y = c("n1", "n2", "n3"), 
@@ -338,6 +315,30 @@ list2 <- list("Sun","Mon","Tue")
 merged.list <- c(list1,list2)
 merged.list
 
+# 8. Text
+###########################################################################################
+
+### Splitting text
+a <- "Today is a very good day"
+b <- strsplit(a, split = " ")   # strsplit produces a list
+b <- strsplit(a, split = "is")
+c <- unlist(b)   
+c[1]
+
+### Joining Text
+a <- "angch"
+b <- "tertiaryinfotech.com"
+paste(a,b, sep = "@")
+
+### Sorting Text
+v <- c("Red", "Blue", "yellow", "violet")
+sort(v)
+sort(v, decreasing = TRUE)
+
+v <- c("Red", "Blue", "Yellow", "Violet")
+str(v)
+summary(v)
+class(v)
 
 ### 9. Date
 #########################################################################################
@@ -614,14 +615,7 @@ f(x,y, col = "red", main = "sine", type = "o")
 ## Challenge 5: Simulate the sum of two die rolls (slide no: 164)
 ##############################################################################################
 ## Hint: Use sample function. 
-1:6
-1:6
 
-f <- function(){
-  die1 <- sample(1:6,1)
-  die2 <- sample(1:6,1)
-  die1 + die2
-}
 
 head(mtcars)
 nrow(mtcars)
@@ -745,28 +739,11 @@ qnorm(p=0.95, mean = 0, sd = 1)  # Find the quantile associated with p
 ## t-test
 ############################################################################################
 
-### Generate figure for unpaird observation
-boxplot(extra ~ group, data = sleep, col="green", xlab="Drug Type", 
-        ylab = "Increase in Sleep Hours", main = "Unpaired")
+### Carry out t-test for Unpaired observation
+t.test(extra~group, data = sleep)
 
 ### Carry out t-test for Unpaired observation
-t.test(extra~group,data = sleep)
-
-### Generate figure for paired observation
-g1 <- sleep[sleep$group==1,]
-g1$group <- as.numeric(g1$group)
-g2 <- sleep[sleep$group==2,]
-g2$group <- as.numeric(g2$group)
-
-col <- 1:10
-plot(as.numeric(sleep$group), sleep$extra, type = "p", cex = 2, xlim=c(0.5,2.5),
-     xlab="Drug Type", ylab = "Increase in Sleep Hours", pch = 16, 
-     col = col, xaxt = "n", main = "Paired")
-axis(side =1, at = c(1,2))
-for (i in 1:nrow(g1)){
-  segments(g1$group[i], g1$extra[i], g2$group[i], g2$extra[i], col = col[i])
-}
-
+t.test(extra~group, data = sleep, alternative = "less")
 
 ### Carry out t-test for paired observation
 t.test(extra ~ group, sleep, paired=TRUE)
@@ -774,69 +751,27 @@ t.test(extra ~ group, sleep, paired=TRUE)
 ###########################################################################################
 ## ANOVA
 ###########################################################################################
-### One Way Anova
+
 #### Look at the data
-head(warpbreaks)
-table(warpbreaks$tension)
-table(warpbreaks$wool)
-summary(warpbreaks)
+head(chickwts)
+table(chickwts$feed)
+summary(chickwts)
 
-### Generate figure for one way anova
-boxplot(breaks ~ tension, data = warpbreaks, col="green", ylab = "Breaks")
-aov1 <- aov(breaks ~ tension, data = warpbreaks)
-summary(aov1)
-TukeyHSD(aov1)
-tapply(warpbreaks$breaks, warpbreaks$tension, mean)
+### Anova
 
-
-### Two way Anova
-### Generate figure for two-way ANOVA
-library(ggplot2)
-ggplot(warpbreaks) + aes(x = wool, y=breaks, fill = tension) + geom_boxplot() + 
-  facet_wrap(~tension) + theme(axis.text=element_text(size=15), 
-                                   axis.title=element_text(size=20),
-                                   strip.text = element_text(size=15))
-
-### Carry out the two-way ANOVA
-aov2 <- aov(breaks ~ wool + tension + wool:tension, data = warpbreaks)
-summary(aov2)
-TukeyHSD(aov2)
-tapply(warpbreaks$breaks, list(warpbreaks$tension, warpbreaks$wool), mean)
-
-##########################################################################################
-## Chi-squared test
-#########################################################################################
-
-### Generate figure for Chi-squared test 1
-eyeCol <- apply(HairEyeColor, 2, sum)
-eyeCol <- eyeCol/sum(eyeCol)
-eyeCol <- rbind(eyeCol, c(0.25, 0.25, 0.25, 0.25))
-row.names(eyeCol) <- c("observed", "expected")
-barplot(eyeCol, beside = TRUE, col = c("red", "green"), 
-        ylab = "Probability", cex.axis = 1.4, cex.names = 1.4, cex.lab = 1.4)
-legend(x = 7, y = 0.40, legend = c("Observed", "Expected"), 
-       fill =  c("red", "green"), bty = "n", cex = 1.4)
+m <- aov(weight ~ feed, data=chickwts)  
+summary(m)
+TukeyHSD(m)
+tapply(chickwts$weight, chickwts$feed, mean)
 
 
-eyeCol
-### Carry out Chi-squared test
-chisq.test(eyeCol, p = c(0.25, 0.25, 0.25, 0.25))
+# Challenge: Perform an ANOVA to determine any difference between the test scores 
+# of 3 teaching methods
+A <- c(79,86,94,89)
+B <- c(71,77,81,83)
+C <- c(82,68,70,76)
 
-### Generate figure for Chi-squared test 2
-eyeCol <- apply(HairEyeColor, 2, sum)
-eyeCol <- eyeCol/sum(eyeCol)
-eyeCol <- rbind(eyeCol, c(0.36, 0.36, 0.15, 0.13))
-row.names(eyeCol) <- c("observed", "expected")
-barplot(eyeCol, beside = TRUE, col = c("red", "green"), 
-        ylab = "Probability", cex.axis = 1.4, cex.names = 1.4, cex.lab = 1.4)
-legend(x = 7, y = 0.40, legend = c("Observed", "Expected"), 
-       fill =  c("red", "green"), bty = "n", cex = 1.4)
 
-eyeCol
-eyeCol <- apply(HairEyeColor, 2, sum)
-### Carry out Chi-squared test
-chisq.test(eyeCol, p = c(0.36, 0.36, 0.15, 0.13))
-  
 #########################################################################################  
 ## Hierarchichal clustering
 #########################################################################################

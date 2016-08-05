@@ -54,5 +54,22 @@ dieSum <- function(){
 
 dieSum()
 
+###############################################################################
+# Challenge 6: Perform an ANOVA to determine any difference between the test scores 
+# of 3 teaching methods
+################################################################################
+A <- c(79,86,94,89)
+B <- c(71,77,81,83)
+C <- c(82,68,70,76)
+scores = c(A,B,C)
+groups <- factor(rep(letters[1:3],each=4))
+D <- data.frame(scores,groups)
+boxplot(scores~groups,data=D)
+D.aov <- aov(scores~groups, data=D)
+summary(D.aov)
+
+TukeyHSD(D.aov)
+tapply(D$scores, D$groups, mean)
+
 
 
