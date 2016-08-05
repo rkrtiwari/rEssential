@@ -202,7 +202,8 @@ rep(1:4, each = 3, times=4)
 
 ### Challenge 2: Extract the elements in red (slide No: 50)
 a <- matrix(1:20, ncol=4)
-
+a
+a[c(3,5),c(2,4)]
 
 ### Manipulating matrix elements
 M1 <- matrix(c(3,9,-1,4,2,6), nrow = 2)
@@ -214,7 +215,7 @@ M1 - M2
 M <- matrix(c(3,9,-1,4,2,6), nrow=2)
 rownames(M) <- c("row1", "row2")
 colnames(M) <- c("col1", "col2", "col3")
-M
+M[1,]
 M["row1",]
 M[,"col1"]
 
@@ -228,6 +229,7 @@ t(M)
 #############################################################################################
 ### Creating an array
 a <- array(c(11:14, 21:24, 31:34), dim=c(2,2,3))
+a
 
 ### Accessing an array element
 a[,,1]    # 1st matrix
@@ -242,6 +244,7 @@ age <- c(21,22, 23)
 name <- c("Ally", "Belinda", "Alfred")
 
 a <- data.frame(gender, height, weight, age, row.names = name)
+a
 
 ### Compact way of creating a data frame
 a <- data.frame(gender = c("Female", "Female", "Male"),
@@ -280,13 +283,14 @@ a[["gender"]]    # column named gender
 a[["height"]]
 a[[1]]
 
+a[,1]
 a[1,1]           # first row first column
 a[-1,-1]         # all rows except first and all columns except first       
 a[c(1,2),c(2,3)] # 1 and 2 column & 2 and 3 colummn    
 a["gender"]    # column named gender
 
 subset(a, select = c("gender", "age"))
-subset(a, subset = height > 163, select = c("gender", "height", "age"))
+subset(a, subset = height > 10, select = c("gender", "height"))
 
 ### adding column to a data frame
 a$name =c('Ally','Belinda','Jane')
@@ -308,6 +312,7 @@ a <- list(c(1,2,3,5,6), y = c("n1", "n2", "n3"),
           z = c("p1", "p2"), m = matrix(1:4, nrow=2))
 a
 
+
 ### Accessing list element using name
 a$y
 
@@ -322,9 +327,10 @@ sum(a[1])
 ### Modifying list
 a[[1]] <- c(7,8,9)
 a
+a[[1]]
 
 a$newMem <- c("x1", "x2", "x3")
-a
+a$nn <- c(1,2,3,4)
 
 ### Merging List
 list1 <- list(1,2,3)
@@ -347,7 +353,7 @@ months(x)
 # Packages
 #######################################################################################
 browseURL("https://cran.r-project.org/web/views/")
-#install.packages("ggplot2")
+install.packages("ggplot2")
 library("ggplot2")
 #update.packages()
 #detach("package:ggplot2", unload = TRUE)
@@ -361,7 +367,7 @@ head(sleep)
 str(sleep)
 browseURL("http://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data")
 read.table("http://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data",
-           nrows=5, header = FALSE, sep = ",")
+           nrows=10, header = FALSE, sep = ",")
 
 #######################################################################################
 # Working with directory
@@ -376,6 +382,7 @@ getwd()
 # Writing to and reading from a file
 ########################################################################################
 ### csv file
+read.csv("data1.csv", header = TRUE)
 data1 <- read.csv("data1.csv", header = TRUE)
 head(data1)
 View(data1)
@@ -385,16 +392,18 @@ View(data1)
 
 ### text file
 read.table("wine.txt", header = FALSE, sep = ",", nrows = 5)
-write.table(sleep, file = "sleep.csv", sep = ",", quote = FALSE)
+write.table(sleep, file = "sleep.csv", sep = "       ", quote = FALSE)
 
 ##########################################################################################
 # Charts
 #########################################################################################
 
 ### Barplot
-par(mar = c(2.5, 8, 2.5, 2.5))
-barplot(mtcars$mpg[1:5], names.arg = row.names(mtcars)[1:5], col = 1:5,
-        las=2, horiz = TRUE)
+par(mar = c(4, 8, 2.5, 2.5))
+barplot(mtcars$mpg[1:5], names.arg = row.names(mtcars)[1:5], 
+        col = c("red", "green"),
+        las=2, horiz = TRUE, xlim=c(0,30), xlab = "mpg")
+text(25,2, labels = "my label")
 
 ### Boxplot
 head(sleep)
@@ -402,7 +411,7 @@ par()$mar
 par(mar = c(4, 4, 2.5, 2.5))
 boxplot(extra ~ group, data = sleep, col = "blue", 
         ylab="Increase in hours of sleep", xlab = "group",
-        cex.lab=1.5, cex.axis=1.5)
+        cex.lab=2.5, cex.axis=2.5)
 
 
 ### Pie Chart
@@ -417,7 +426,8 @@ hist(mtcars$mpg, breaks = c(5,10,20,30,45), col = "red",
      border = "black", main = "mpg histogram")
 
 ### Line Plot
-plot(mtcars$mpg, type = "o", col = "red", xlab = "Index", pch = 19)
+plot(mtcars$mpg, type = "o", col = "red", xlab = "Index", pch = 12,
+     ylab="mpg")
 
 ### Multiple lines in a line chart
 plot(mtcars$mpg, type = "o", col = "red", xlab = "x")
@@ -440,7 +450,7 @@ plot(mtcars[,c(1,6,7)], col = "blue", pch=19)
 
 ### if condition
 ########################################################################################
-x <- 6
+x <- 2
 y <- 4
 
 if(x >y){
@@ -487,7 +497,7 @@ for (i in 1:10){
 }
 
 ## looping through the values 
-v <- c(1,2,3,4,5)
+v <- c(10,5,7,8)
 for (i in v){
   print(i)
 }
@@ -507,6 +517,21 @@ for (i in 1:10){
 ## Challenge
 ### read data1.csv
 
+data1$Month == 5 | data1$Month == 6 | 
+data1$Temp > 65
+(data1$Month == 5 | data1$Month == 6) & data1$Temp > 65
+
+sum((data1$Month == 5 | data1$Month == 6) & data1$Temp > 65)
+nrow(subset(data1, subset= (data1$Month == 5 | data1$Month == 6) & data1$Temp > 65))
+
+Month
+data1$Month
+
+attach(data1)
+detach(data1)
+
+plot(Month)
+with(data1, plot(Month))
 
 ##########################################################################################
 ## Function
@@ -516,34 +541,37 @@ for (i in 1:10){
 #########################################################################################
 factorial(3)
 mean(1:6)
-sample(1:6,size = 3)
-
+set.seed(20)
+sample(1:6,size = 2)
 
 ## User defined function
 ###########################################################################################
 f <- function(x, y){
-  x*x + y
+  y - x
 }
+
+f(3,3)
 
 f(1,2)
 f(x=1, y=2)   # Named arguments
-f(y=2, x=1)   
+f(y=1, x=2)   
 f(x=2, y=1)
 
 filter <- function(x){
   x[x>0]
 }
 
-filter(-10:10)
+filter(c(-4,-5,1,2,3,4))
 
-## Functions with default arguements
+## Functions with default arguments
 ##########################################################################################
 above10 <- function(x, n=10) {
-  x[x>n]
+  ind <- x > n
+  x[ind]
 }
 
 above10(1:15)
-above10(1:15, n=8)
+above10(1:15, n=5)
 
 ## Functional with optional arguments
 ########################################################################################
@@ -586,25 +614,54 @@ f(x,y, col = "red", main = "sine", type = "o")
 ## Challenge 5: Simulate the sum of two die rolls (slide no: 164)
 ##############################################################################################
 ## Hint: Use sample function. 
+1:6
+1:6
 
+f <- function(){
+  die1 <- sample(1:6,1)
+  die2 <- sample(1:6,1)
+  die1 + die2
+}
 
+head(mtcars)
+nrow(mtcars)
+sample(1:6, 5, replace=FALSE)
+ind <- sample(c(TRUE, FALSE), size=32, replace= TRUE, prob=c(0.1,0.9))
+mtcars[ind,]
+which(ind==TRUE)
+mtcars[c(6,11,12),]
 
 ############################################################################################
 # Advanced functions
 ###########################################################################################
-apply(mtcars, 2, mean)
+max(mtcars$mpg)
+
+f <- function(x){
+  x*x
+}
+
+
+var <- apply(mtcars, 2, mean)
+write.table(var, file="myFile.csv", sep = "\t", quote=FALSE)
 apply(mtcars, 1, mean)
+names(mtcars)
 
 lapply(mtcars, max)
 lapply(mtcars, min)
 lapply(mtcars, mean)
-sapply(mtcars, min)
+lapply(mtcars, min)
+
+str(mtcars)
+table(mtcars$cyl)
+tapply(mtcars$mpg, mtcars$cyl, mean)
+tapply(mtcars$mpg, mtcars$gear, mean)
+
 
 #########################################################################################
 # Basic Statistics
 #########################################################################################
 x <- 1:100
-mean(x,trim=0.3)
+mean(x)
 median(x)
 summary(x)
 sample(x, size=10)
@@ -624,14 +681,24 @@ plot(mtcars[,c(1,6,7)], col = "blue")
 ############################################################################################
 ## Linear Regression
 #########################################################################################
+##install.packages("shiny")
+library(shiny)
+runApp("lm")
+
 
 head(mtcars)
-plot(mtcars$wt, mtcars$mpg, col = "blue", pch = 19, xlab = "wt", ylab = "mpg")
-lmModel <- lm(mpg ~ wt, data = mtcars)
-abline(lmModel)
 
+lmModel <- lm(mpg ~ wt, data = mtcars)
+plot(mtcars$wt, mtcars$mpg, col = "blue", pch = 19, xlab = "wt", ylab = "mpg")
+abline(lmModel)
 coef(lmModel)
-predict(lmModel, newdata = data.frame(wt=c(0,4,5)))
+predict(lmModel, newdata = mtcars)
+
+
+
+lmModel <- lm(mpg ~ ., data = mtcars)
+coef(lmModel)
+predict(lmModel, newdata = mtcars)
 
 ### Model Accuracy
 #### Model of mpg with wt as predictor variable
@@ -648,6 +715,11 @@ sumModel$r.squared
 corMat[3,1]^2   # r.squared is literally the square of r (correlation coefficient)
 
 
+lmModel <- lm(mpg ~ qsec, data = mtcars)
+plot(mtcars$qsec, mtcars$mpg, pch = 19, col = "red")
+abline(lmModel)
+
+
 ##########################################################################################
 ## Distribution
 ###########################################################################################
@@ -659,27 +731,12 @@ hist(n, breaks=100, col = "blue", xlim = c(-4,4),
      main = "Histogram of 10000 randomly \n generated normally distributed number", 
      cex.axis=1.3, cex.lab = 1.3)
 
+runApp("hypothesisTesting/")
 
-### Code to Plot the distribution
-x <- seq(from = -4, to = 4, length.out = 200)
-d <- dnorm(x, mean = 0, sd = 1)
-par(mfrow=c(1,1))
-plot(x, d, type="l", col="blue", xlim = c(-4,4), ylab = "Probability Density")
-abline(v=1.64, col="blue")
-abline(h=0, col="blue")
-xp <- seq(1.64,4, length.out = 100)
-yp <- dnorm(xp, mean = 0, sd = 1)
-polygon(x=c(xp, rev(xp)), y = c(yp, rep(0,100)), col = "blue")
-text(3,0.1, label = "5% Probability \n Region")
-text(0, 0.15, label = "95% Probability \n Region")
-arrows(2.40,0.09, 1.9, 0.06, length=0.15, lwd = 1.85)
-text(2.7, 0.3, labels = "1.644")
-arrows(2.20,0.3, 1.64, 0.3, length=0.15, lwd = 1.85)
-segments(-4.3,0.1032,1.644,0.1032)
 
 ### Code to generate quantities related to normal distribution. All the results 
 # are for distribution mean 0 and standard deviation (sd) 1
-rnorm(n=10, mean = 0, sd = 1)    # Generates 10 numbers
+rnorm(n=10, mean = 4, sd = 4)    # Generates 10 numbers
 dnorm(x=1.644, mean = 0, sd = 1) # Find the probability density when x = 1.644
 pnorm(q=1.644, mean = 0, sd = 1) # Find the probability associate with q 
 qnorm(p=0.95, mean = 0, sd = 1)  # Find the quantile associated with p
@@ -720,6 +777,8 @@ t.test(extra ~ group, sleep, paired=TRUE)
 ### One Way Anova
 #### Look at the data
 head(warpbreaks)
+table(warpbreaks$tension)
+table(warpbreaks$wool)
 summary(warpbreaks)
 
 ### Generate figure for one way anova
@@ -759,6 +818,7 @@ legend(x = 7, y = 0.40, legend = c("Observed", "Expected"),
        fill =  c("red", "green"), bty = "n", cex = 1.4)
 
 
+eyeCol
 ### Carry out Chi-squared test
 chisq.test(eyeCol, p = c(0.25, 0.25, 0.25, 0.25))
 
@@ -772,118 +832,47 @@ barplot(eyeCol, beside = TRUE, col = c("red", "green"),
 legend(x = 7, y = 0.40, legend = c("Observed", "Expected"), 
        fill =  c("red", "green"), bty = "n", cex = 1.4)
 
+eyeCol
+eyeCol <- apply(HairEyeColor, 2, sum)
 ### Carry out Chi-squared test
 chisq.test(eyeCol, p = c(0.36, 0.36, 0.15, 0.13))
   
 #########################################################################################  
 ## Hierarchichal clustering
 #########################################################################################
-
-### Generate figure for hierarchichal clustering
-set.seed(4)
-index <- sample(c(TRUE, FALSE), nrow(iris), p = c(0.05, 0.95), replace = TRUE)
-myIris <- iris[index,3:4]
-species <- iris[index,5]
-disM <- dist(myIris)
-irisClust <- hclust(disM)
-
-clusters <- cutree(irisClust, k = 3)
-clusters <- ifelse(clusters==1, "setosa", ifelse(clusters==2, 
-                                                 "versicolor", "virginica"))
-clusters <- factor(clusters)
-col <- ifelse(clusters == "setosa", "green", 
-              ifelse(clusters=="versicolor", "red", "blue"))
-
-
-par(mfrow = c(2,2), mar = c(5.1, 4.1, 4.1, 2.1))
-library(sparcl)
-ColorDendrogram(irisClust, y = col, labels = names(clusters), main = "Dendogram",   branchlength = 5, xlab = " ")
-abline(h=1.5)
-
-plot(myIris$Petal.Length, myIris$Petal.Width, pch = " ",
-     xlab = "Petal.Length", ylab = "Petal.Width", cex.axis=1.3, cex.lab = 1.3)
-text(myIris$Petal.Length, myIris$Petal.Width, labels = which(index==TRUE), 
-     cex = 0.8, col = col)
-
-
-plot(myIris$Petal.Length, myIris$Petal.Width, pch = 19, col = col,
-     xlab = "Petal.Length", ylab = "Petal.Width", 
-     cex.lab = 1.3, cex.axis=1.3, cex = 1.3, main = "Identified Groups")
-legend(x=1,y=2.7, legend = c("group1", "group2", "group3"), 
-       col = c("green", "red", "blue"), pch = 19, y.intersp=0.1, 
-       cex = 1.3, bty = "n")
-
-col <- ifelse(species == "setosa", "green", 
-              ifelse(species=="versicolor", "red", "blue"))
-plot(myIris$Petal.Length, myIris$Petal.Width, pch = 17, col = col,
-     xlab = "Petal.Length", ylab = "Petal.Width", cex.lab = 1.3, 
-     cex.axis=1.3, cex = 1.3, main = "Actual Species")
-legend(x=1,y=2.7, legend = c("setosa", "versicolor", "virginica"), 
-       col = c("green", "red", "blue"), pch = 17, y.intersp=0.1, 
-       cex = 1.3, bty = "n")
-
 ### data preprocessing for hierarchichal clustering. 
 ### Only 5% of the data have been used  for clustering. More data is not a problem for
 ### clustering algorithm but the visualization becomes extremely dense.
 set.seed(4)
 index <- sample(c(TRUE, FALSE), nrow(iris), p = c(0.05, 0.95), replace = TRUE)
 myIris <- iris[index,3:4]
+myIris
 
 ### Clustering done on a subset of iris data which is  named myIris
 disM <- dist(myIris)
 irisClust <- hclust(disM)
 clusters <- cutree(irisClust, k = 3)
 clusters
+iris[index,5]
 
 ##########################################################################################
 ## kmeans clustering
 ##########################################################################################
-
-### Generate the corresponding figure
+### data preprocessing for hierarchichal clustering. 
+### Only 5% of the data have been used  for clustering. More data is not a problem for
+### clustering algorithm but the visualization becomes extremely dense.
 set.seed(100)
 index <- sample(c(TRUE, FALSE), nrow(iris), p = c(0.2, 0.8), replace = TRUE)
 myIris <- iris[index,3:4]
 group <- iris$Species[index]
+
+
 set.seed(100)
 predGroup <- kmeans(myIris, centers = 3, nstart = 10)
-predGroupC <- ifelse(predGroup$cluster==1, "setosa", ifelse(predGroup$cluster==2, 
-                                                            "versicolor", "virginnica"))
+predGroupC <- ifelse(predGroup$cluster==2, "setosa", 
+                     ifelse(predGroup$cluster==1, "versicolor", "virginnica"))
 predGroupC <- factor(predGroupC)
 table(predGroupC, group)
 
-par(mfrow = c(1,2))
-col <- ifelse(predGroupC == "setosa", "green", 
-              ifelse(predGroupC=="versicolor", "red", "blue"))
-plot(myIris$Petal.Length, myIris$Petal.Width, pch = 19, col = col, 
-     xlab = "Petal.Length", ylab = "Petal.Width",
-     main = "Identified Groups")
-points(predGroup$centers, pch = 8, col = c("magenta"), cex = 1.2)
-legend(x=1,y=2.5, legend = c("group1", "group2", "group3", "group centroid"), 
-       col = c("green", "red", "blue", "magenta"), pch = c(19,19,19,8), 
-       y.intersp=0.75, cex = 0.75,
-       bty = "n")
-
-
-
-col <- ifelse(group == "setosa", "green", ifelse(group=="versicolor", "red", "blue"))
-plot(myIris$Petal.Length, myIris$Petal.Width, pch = 17, col = col,
-     xlab = "Petal.Length", ylab = "Petal.Width",
-     main = "Actual Species")
-legend(x=1,y=2.5, legend = c("setosa", "versicolor", "virginica"), 
-       col = c("green", "red", "blue"), pch = 17, y.intersp=0.75, cex = 0.75,
-       bty = "n")
-par(mfrow = c(1,1))
-
-### Carry out kmeans clustering
-set.seed(100)
-index <- sample(c(TRUE, FALSE), nrow(iris), p = c(0.2, 0.8), replace = TRUE)
-myIris <- iris[index,3:4]
-group <- iris$Species[index]
-set.seed(100)
-predGroup <- kmeans(myIris, centers = 3, nstart = 10)
-predGroupC <- ifelse(predGroup$cluster==1, "setosa", ifelse(predGroup$cluster==2, 
-                                                            "versicolor", "virginnica"))
-predGroupC <- factor(predGroupC)
-table(predGroupC, group)
 
 
