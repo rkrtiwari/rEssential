@@ -52,8 +52,7 @@ a <- 10:-4
 ### creating vector using c operator
 x <- c(1,2,4)
 y <- c(1,7:9)
-z <- c("red", "green", "yellow")
-m <- c(1:5, 10.5, "red")
+
 
 ### Creating vectors using seq
 x <- seq(10)
@@ -61,10 +60,10 @@ x <- seq(3,20)
 x <- seq(3,20,3)
 x <- seq(1,9, by = 2)
 x <- seq(from=1, to = 5, by = 0.5)
-y <- seq(from=1, to = 10, length.out = 10)
+x <- seq(from=1, to = 10, length.out = 10)
 
 #### An application of seq
-x <- seq(0,3*pi, length.out = 100)
+x <- seq(0,5*pi, length.out = 100)
 y <- sin(x)
 plot(x,y, type="o", col = "blue", cex = 0.5)
 
@@ -72,6 +71,8 @@ plot(x,y, type="o", col = "blue", cex = 0.5)
 x <- rep(4, times=4)
 x <- rep(c(4,3), times=4)
 x <- rep(c(4,3), each = 4)
+rep(c(4,2), each=10)
+rep(1:4, each = 3, times=4)
 
 ### Creating a vector using a combination of above methods
 x <- c(seq(0,5,by=0.5), 1:5, rep(2,3), c(1,1,1))
@@ -106,7 +107,7 @@ which.max(y)   # Location of the maximum y value
 which.min(y)   # Location of the minimum y value
 
 
-### Challenge 1: Find the sum of the positive elements of a (slide No: 37)
+### Challenge 1: Find the sum of the positive elements of a (slide No: 35)
 a <- c(2,3,-1,3,5,2,-3,1)
 
 ### Dropping NA values
@@ -174,10 +175,7 @@ M[2,]                     # Second row
 M[,3]                     # Third column
 M[1:2, 3:4]               # row 1 to 2, column 3 to 4
 
-rep(c(4,2), each=10)
-rep(1:4, each = 3, times=4)
-
-### Challenge 2: Extract the elements in red (slide No: 50)
+### Challenge 2: Extract the elements in red (slide No: 48)
 a <- matrix(1:20, ncol=4)
 a
 a[c(3,5),c(2,4)]
@@ -240,7 +238,7 @@ gender <- c("Female", "Male","Female")
 height <- c(155, 171.5, 155)
 weight <- c(71,93, 68)
 df <- cbind(gender,height,weight)
-df
+df <- as.data.frame(df)
 
 ### row and column names
 colnames(df)
@@ -256,6 +254,8 @@ ncol(df)
 a$gender         # gender column
 a$height
 
+a["gender"]  # column named gender
+
 a[["gender"]]    # column named gender
 a[["height"]]
 a[[1]]
@@ -264,8 +264,7 @@ a[,1]
 a[1,1]           # first row first column
 a[-1,-1]         # all rows except first and all columns except first       
 a[c(1,2),c(2,3)] # 1 and 2 column & 2 and 3 colummn    
-a["gender"]    # column named gender
-
+   
 subset(a, select = c("gender", "age"))
 subset(a, subset = height > 10, select = c("gender", "height"))
 
@@ -337,7 +336,6 @@ sort(v, decreasing = TRUE)
 
 v <- c("Red", "Blue", "Yellow", "Violet")
 str(v)
-summary(v)
 class(v)
 
 ### 9. Date
@@ -345,6 +343,7 @@ class(v)
 x <- as.Date("2016-03-13")
 x <- as.Date("5/Aug/16", format= "%d/%b/%y")
 x
+?format.Date
 weekdays(x)
 x+30
 months(x)
@@ -388,31 +387,32 @@ data1 <- read.csv("data1.csv", header = TRUE)
 head(data1)
 View(data1)
 
-### challenge 3: add a row at the end of a csv file and store it under some other name 
-### (slide No: 104)
-
 ### text file
 read.table("wine.txt", header = FALSE, sep = ",", nrows = 5)
-write.table(sleep, file = "sleep.csv", sep = "       ", quote = FALSE)
+write.table(sleep, file = "sleep.csv", sep = ",", quote = FALSE)
 
+### challenge 3: add a row at the end of data1.csv file and store it under 
+### data2.csv 
+### (slide No: 107)
 ##########################################################################################
 # Charts
 #########################################################################################
 
 ### Barplot
+dmar <- par()$mar
 par(mar = c(4, 8, 2.5, 2.5))
 barplot(mtcars$mpg[1:5], names.arg = row.names(mtcars)[1:5], 
         col = c("red", "green"),
-        las=2, horiz = TRUE, xlim=c(0,30), xlab = "mpg")
-text(25,2, labels = "my label")
+        las = 2, horiz = TRUE, xlim=c(0,30), xlab = "mpg")
+
 
 ### Boxplot
 head(sleep)
 par()$mar
-par(mar = c(4, 4, 2.5, 2.5))
+par(mar = dmar)
 boxplot(extra ~ group, data = sleep, col = "blue", 
         ylab="Increase in hours of sleep", xlab = "group",
-        cex.lab=2.5, cex.axis=2.5)
+        cex.lab=1.2, cex.axis=1.2)
 
 
 ### Pie Chart
@@ -471,7 +471,7 @@ if(x >y){
 
 ## switch
 ###########################################################################################
-x <- "four"
+x <- "one"
 switch(x,
        zero = print(0),
        one =   print(1),
@@ -487,7 +487,6 @@ while(x < 10){
   print(x)
   x = x + 1
 }
-
 
 
 ## for loop
@@ -515,24 +514,12 @@ for (i in 1:10){
   print(i)
 }
 
-## Challenge
+## load data1.csv file. Count the number of days  when Temp is more 
+# than 65 for the month of May
+## and June (slide No: 145)
 ### read data1.csv
 
-data1$Month == 5 | data1$Month == 6 | 
-data1$Temp > 65
-(data1$Month == 5 | data1$Month == 6) & data1$Temp > 65
 
-sum((data1$Month == 5 | data1$Month == 6) & data1$Temp > 65)
-nrow(subset(data1, subset= (data1$Month == 5 | data1$Month == 6) & data1$Temp > 65))
-
-Month
-data1$Month
-
-attach(data1)
-detach(data1)
-
-plot(Month)
-with(data1, plot(Month))
 
 ##########################################################################################
 ## Function
@@ -566,13 +553,13 @@ filter(c(-4,-5,1,2,3,4))
 
 ## Functions with default arguments
 ##########################################################################################
-above10 <- function(x, n=10) {
+aboveN <- function(x, n=10) {
   ind <- x > n
   x[ind]
 }
 
-above10(1:15)
-above10(1:15, n=5)
+aboveN(1:15)
+aboveN(1:15, n=5)
 
 ## Functional with optional arguments
 ########################################################################################
@@ -612,31 +599,16 @@ x <- seq(from = -3*pi, to = 3*pi, length.out = 100)
 y <- sin(x)
 f(x,y, col = "red", main = "sine", type = "o")
 
-## Challenge 5: Simulate the sum of two die rolls (slide no: 164)
+## Challenge 5: Simulate the sum of two die rolls (slide no: 159)
 ##############################################################################################
 ## Hint: Use sample function. 
 
 
-head(mtcars)
-nrow(mtcars)
-sample(1:6, 5, replace=FALSE)
-ind <- sample(c(TRUE, FALSE), size=32, replace= TRUE, prob=c(0.1,0.9))
-mtcars[ind,]
-which(ind==TRUE)
-mtcars[c(6,11,12),]
 
 ############################################################################################
 # Advanced functions
 ###########################################################################################
-max(mtcars$mpg)
-
-f <- function(x){
-  x*x
-}
-
-
-var <- apply(mtcars, 2, mean)
-write.table(var, file="myFile.csv", sep = "\t", quote=FALSE)
+apply(mtcars, 2, mean)
 apply(mtcars, 1, mean)
 names(mtcars)
 
@@ -672,13 +644,15 @@ corMat
 corMat[2,1]
 plot(mtcars[,c(1,6,7)], col = "blue")
 
+## Challenge: Find the correlation among variables of quakes dataset 
+## slide no (169)
+
 ############################################################################################
 ## Linear Regression
 #########################################################################################
 ##install.packages("shiny")
 library(shiny)
 runApp("lm")
-
 
 head(mtcars)
 
@@ -742,11 +716,13 @@ qnorm(p=0.95, mean = 0, sd = 1)  # Find the quantile associated with p
 ### Carry out t-test for Unpaired observation
 t.test(extra~group, data = sleep)
 
-### Carry out t-test for Unpaired observation
-t.test(extra~group, data = sleep, alternative = "less")
 
 ### Carry out t-test for paired observation
 t.test(extra ~ group, sleep, paired=TRUE)
+
+
+## Challenge: Do a 2 sample t-test to compare the performance of 
+## chickwts feed - casein vs horsebean (slide no: 188)
 
 ###########################################################################################
 ## ANOVA

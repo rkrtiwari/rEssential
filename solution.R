@@ -1,19 +1,19 @@
 #############################################################################################
-### Challenge 1: Find the sum of the positive elements of a (slide No: 37 )
+### Challenge 1: Find the sum of the positive elements of a (slide No: 35 )
 ##############################################################################################
 a <- c(2,3,-1,3,5,2,-3,1)
 
 sum(a[a>0])
 
 ##############################################################################################
-### Challenge 2: Extract the elements in red (slide No: 50)
+### Challenge 2: Extract the elements in red (slide No: 48)
 ##############################################################################################
 a <- matrix(1:20, ncol=4)
 
 a[c(3,5),c(2,4)]
 
 ##############################################################################################
-## Challenge 3: read a csv file add 1 line to it and write it to a csv file (slide 104)
+## Challenge 3: read a csv file add 1 line to it and write it to a csv file (slide 107)
 #############################################################################################
 data1 <- read.csv("data1.csv", nrows = -1, header = TRUE)
 
@@ -24,7 +24,7 @@ write.csv(data2, file="data2.csv", quote=FALSE, row.names = FALSE)
 
 #############################################################################################
 ## Challenge 4: Count the number of days  when Temp is more than 65 for the month of May
-## and June (slide No: 151)
+## and June (slide No: 145)
 ############################################################################################
 data1 <- read.csv("data1.csv", nrows = -1, header = TRUE)
 
@@ -44,7 +44,7 @@ nrow(subset(data1, (Month==5 | Month==6) & Temp > 65 ))
 
 
 #############################################################################################
-# challenge 5: simulate the sum of two die roll (slide No: 164, 174,175)
+# challenge 5: simulate the sum of two die roll (slide No: 159)
 ###########################################################################################
 dieSum <- function(){
   die1 <- sample(1:6, size = 1)
@@ -54,9 +54,23 @@ dieSum <- function(){
 
 dieSum()
 
+######################################################################
+# Challenge: Find the correlation among variables of quakes dataset 
+# slide no (169)
+####################################################################
+cor(quakes)
+
+######################################################################
+# Challenge 6: Do a 2 sample t-test to compare the performance of 
+# chickwts feed - casein vs horsebean (slide no: 188)
+#####################################################################
+chickwts1 <- subset(chickwts,feed == "casein" | feed == "horsebean")
+t.test(weight ~ feed, data = chickwts1)
+
+
 ###############################################################################
-# Challenge 6: Perform an ANOVA to determine any difference between the test scores 
-# of 3 teaching methods
+# Challenge 7: Perform an ANOVA to determine any difference between the test scores 
+# of 3 teaching methods (Slide No: 193)
 ################################################################################
 A <- c(79,86,94,89)
 B <- c(71,77,81,83)
